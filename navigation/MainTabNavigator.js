@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {Platform} from 'react-native';
+import {createStackNavigator, createBottomTabNavigator} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -13,7 +13,7 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
       name={
@@ -31,7 +31,7 @@ const LinksStack = createStackNavigator({
 
 LinksStack.navigationOptions = {
   tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
       name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
@@ -45,7 +45,7 @@ const SettingsStack = createStackNavigator({
 
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
+  tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
       name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
