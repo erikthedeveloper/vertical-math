@@ -1,5 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {MultiplicationEquation} from '../components/MultiplicationEquation/MultiplicationEquation';
 
 export default class MultiplicationProblem extends React.Component {
   static navigationOptions = {
@@ -7,8 +8,18 @@ export default class MultiplicationProblem extends React.Component {
   };
 
   render() {
-    return <View />;
+    return (
+      <View style={styles.screenOuter}>
+        <MultiplicationEquation factors={[187, 13]} />
+      </View>
+    );
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screenOuter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

@@ -17,7 +17,7 @@ MultiplicationStack.navigationOptions = {
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-calculator' : 'md-calculator'}
+      name={Platform.OS === 'ios' ? 'ios-close' : 'md-close'}
     />
   ),
 };
@@ -27,15 +27,11 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: 'Add',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={Platform.OS === 'ios' ? `ios-add` : 'md-add'}
     />
   ),
 };
@@ -45,11 +41,11 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+  tabBarLabel: 'Subtract',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      name={Platform.OS === 'ios' ? 'ios-remove' : 'md-remove'}
     />
   ),
 };
@@ -68,9 +64,14 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-export default createBottomTabNavigator({
-  MultiplicationStack,
-  HomeStack,
-  LinksStack,
-  SettingsStack,
-});
+export default createBottomTabNavigator(
+  {
+    HomeStack,
+    LinksStack,
+    MultiplicationStack,
+    SettingsStack,
+  },
+  {
+    initialRouteName: 'MultiplicationStack',
+  }
+);
