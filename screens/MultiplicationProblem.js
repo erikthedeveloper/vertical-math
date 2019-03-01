@@ -10,7 +10,7 @@ export default class MultiplicationProblem extends React.Component {
   render() {
     return (
       <View style={styles.screenOuter}>
-        <MultiplicationEquation factors={[187, 13]} />
+        <MultiplicationEquation factors={[24, 36]} />
       </View>
     );
   }

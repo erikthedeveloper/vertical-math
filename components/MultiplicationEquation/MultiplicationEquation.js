@@ -5,11 +5,11 @@ import {NumberRow} from './NumberRow';
 
 export class MultiplicationEquation extends React.Component {
   state = {
-    productRows: [561, '0'],
+    productRows: [24, '12' + '0', '12' + '0', '6' + '00'],
     product: '',
-    multiplicandFocus: 2,
+    multiplicandFocus: 0,
     multiplierFocus: 0,
-    productRowsFocus: [1, -1],
+    productRowsFocus: [3, 0],
   };
 
   render() {
@@ -40,6 +40,7 @@ export class MultiplicationEquation extends React.Component {
             focusedIndex={
               i === productRowsFocus[0] ? productRowsFocus[1] : null
             }
+            success={true}
             operator={i === productRows.length - 1 ? 'addition' : null}
           />
         ))}
