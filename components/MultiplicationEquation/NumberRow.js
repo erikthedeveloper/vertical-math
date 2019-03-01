@@ -20,7 +20,7 @@ function Operator({operator, style}) {
   );
 }
 
-function NumberRowNumber({value, isOutlined}) {
+function NumberRowNumber({value, isOutlined, success}) {
   return (
     <View
       style={[
@@ -28,14 +28,20 @@ function NumberRowNumber({value, isOutlined}) {
         isOutlined ? styles.characterOuterFocused : null,
       ]}
     >
-      <Text style={[styles.character, isOutlined && styles.characterFocused]}>
+      <Text
+        style={[
+          styles.character,
+          isOutlined && styles.characterFocused,
+          success ? {color: 'green'} : null,
+        ]}
+      >
         {value}
       </Text>
     </View>
   );
 }
 
-export function NumberRow({value, focusedIndex, operator}) {
+export function NumberRow({value, focusedIndex, operator, success}) {
   const valueStr = String(value);
 
   return (
@@ -46,6 +52,7 @@ export function NumberRow({value, focusedIndex, operator}) {
         <NumberRowNumber
           key={i}
           isOutlined={i === focusedIndex}
+          success={i === focusedIndex && success}
           value={character}
         />
       ))}
