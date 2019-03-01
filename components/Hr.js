@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   hr: {
     height: 2,
-    width: 175,
+    width: 225,
     backgroundColor: '#000',
   },
 });
