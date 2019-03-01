@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'expo';
 
-const FONT_SIZE = 60;
+const FONT_SIZE = 50;
 const textColor = 'gray';
 
 function Operator({operator, style}) {
