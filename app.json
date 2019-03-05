@@ -2,6 +2,7 @@
   "expo": {
     "name": "Vertical Math",
     "slug": "VerticalMath",
+    "description": "A visual approach to help kids learn vertical addition, subtraction, and multiplication.",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -23,7 +24,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.erikaybar.verticalmath"
+    },
+    "android": {
+      "package": "com.erikaybar.verticalmath"
     }
   }
 }
