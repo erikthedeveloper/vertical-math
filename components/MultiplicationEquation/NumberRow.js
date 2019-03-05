@@ -1,24 +1,8 @@
 import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Icon} from 'expo';
 
 const FONT_SIZE = 50;
 const textColor = 'gray';
-
-function Operator({operator, style}) {
-  const icon = {
-    multiplication: 'ios-close',
-    addition: 'ios-add',
-  }[operator];
-  return (
-    <Icon.Ionicons
-      name={icon}
-      size={FONT_SIZE}
-      color={textColor}
-      style={[styles.operator, style]}
-    />
-  );
-}
 
 function NumberRowNumber({value, isOutlined, success}) {
   return (
@@ -41,18 +25,17 @@ function NumberRowNumber({value, isOutlined, success}) {
   );
 }
 
-export function NumberRow({value, focusedIndex, operator, success}) {
+export function NumberRow({value, focusedIndexes, operator, success, faded}) {
   const valueStr = String(value);
 
   return (
-    <View style={styles.outer}>
-      {operator && <Operator operator={operator} />}
-      {focusedIndex === -1 && <NumberRowNumber value=" " isOutlined />}
+    <View style={[styles.outer, faded && styles.faded]}>
+      {focusedIndexes.includes(-1) && <NumberRowNumber value=" " isOutlined />}
       {valueStr.split('').map((character, i) => (
         <NumberRowNumber
-          key={i}
-          isOutlined={i === focusedIndex}
-          success={i === focusedIndex && success}
+          key={valueStr.length - 1 - i}
+          isOutlined={focusedIndexes.includes(i)}
+          success={success}
           value={character}
         />
       ))}
@@ -60,11 +43,18 @@ export function NumberRow({value, focusedIndex, operator, success}) {
   );
 }
 
+NumberRow.defaultProps = {
+  focusedIndexes: [],
+};
+
 const styles = StyleSheet.create({
   outer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginVertical: 5,
+  },
+  faded: {
+    opacity: 0.6,
   },
   characterOuter: {
     flexBasis: FONT_SIZE * 0.8,
@@ -82,9 +72,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   characterFocused: {},
-  operator: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-  },
 });

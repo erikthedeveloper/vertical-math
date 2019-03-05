@@ -1,51 +1,56 @@
 import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Hr} from '../Hr';
+import {View} from 'react-native';
 import {NumberRow} from './NumberRow';
+import {VerticalNumbers} from '../VerticalNumbers';
+import {productForIndexes} from '../../utils/math-utils';
 
 export class MultiplicationEquation extends React.Component {
-  state = {
-    productRows: [24, '12' + '0', '12' + '0', '6' + '00'],
-    product: '',
-    multiplicandFocus: 0,
-    multiplierFocus: 0,
-    productRowsFocus: [3, 0],
-  };
-
   render() {
     const {
       factors: [multiplicand, multiplier],
-    } = this.props;
-    const {
       product,
       productRows,
       multiplicandFocus,
       multiplierFocus,
       productRowsFocus,
-    } = this.state;
+      completed,
+    } = this.props;
+
+    const productIsCorrect = Number(product) === multiplicand * multiplier;
 
     return (
       <View>
-        <NumberRow value={multiplicand} focusedIndex={multiplicandFocus} />
-        <NumberRow
-          value={multiplier}
-          focusedIndex={multiplierFocus}
-          operator="multiplication"
-        />
-        <Hr />
-        {productRows.map((productRow, i) => (
+        <VerticalNumbers operator="multiplication">
           <NumberRow
-            key={i}
-            value={productRow}
-            focusedIndex={
-              i === productRowsFocus[0] ? productRowsFocus[1] : null
-            }
-            success={true}
-            operator={i === productRows.length - 1 ? 'addition' : null}
+            value={multiplicand}
+            focusedIndexes={[multiplicandFocus]}
           />
-        ))}
-        <Hr />
-        <NumberRow value={product} />
+          <NumberRow value={multiplier} focusedIndexes={[multiplierFocus]} />
+        </VerticalNumbers>
+        {!completed && (
+          <VerticalNumbers operator="addition">
+            {productRows.map((value, i) => {
+              const rowIsCorrect =
+                productForIndexes(
+                  [multiplicand, multiplier],
+                  [multiplicandFocus, multiplierFocus]
+                ) === value;
+              const rowIsFocused = i === productRowsFocus[0];
+              return (
+                <NumberRow
+                  key={i}
+                  value={value}
+                  focusedIndexes={[
+                    !rowIsCorrect && rowIsFocused ? productRowsFocus[1] : null,
+                  ]}
+                  faded={!rowIsFocused}
+                  success={rowIsCorrect && rowIsFocused}
+                />
+              );
+            })}
+          </VerticalNumbers>
+        )}
+        <NumberRow value={product} success={productIsCorrect} />
       </View>
     );
   }

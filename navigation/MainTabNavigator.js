@@ -1,19 +1,20 @@
 import React from 'react';
 import {Platform} from 'react-native';
-import {createStackNavigator, createBottomTabNavigator} from 'react-navigation';
-
+import {createBottomTabNavigator, createStackNavigator} from 'react-navigation';
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
 import MultiplicationProblem from '../screens/MultiplicationProblem';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import {SubtractionProblem} from '../screens/SubtractionProblem';
+import {AdditionProblem} from '../screens/AdditionProblem';
 
-const MultiplicationStack = createStackNavigator({
-  Multiplication: MultiplicationProblem,
-});
+const MultiplicationStack = createStackNavigator(
+  {
+    Multiplication: MultiplicationProblem,
+  },
+  {defaultNavigationOptions: {header: null}}
+);
 
 MultiplicationStack.navigationOptions = {
-  tabBarLabel: 'Multiplication',
+  tabBarLabel: 'Multiply',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
@@ -22,11 +23,14 @@ MultiplicationStack.navigationOptions = {
   ),
 };
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-});
+const AdditionStack = createStackNavigator(
+  {
+    Addition: AdditionProblem,
+  },
+  {defaultNavigationOptions: {header: null}}
+);
 
-HomeStack.navigationOptions = {
+AdditionStack.navigationOptions = {
   tabBarLabel: 'Add',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
@@ -36,11 +40,14 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
+const SubtractionStack = createStackNavigator(
+  {
+    Subtraction: SubtractionProblem,
+  },
+  {defaultNavigationOptions: {header: null}}
+);
 
-LinksStack.navigationOptions = {
+SubtractionStack.navigationOptions = {
   tabBarLabel: 'Subtract',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
@@ -50,26 +57,11 @@ LinksStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({focused}) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
-};
-
 export default createBottomTabNavigator(
   {
-    HomeStack,
-    LinksStack,
+    AdditionStack,
+    SubtractionStack,
     MultiplicationStack,
-    SettingsStack,
   },
   {
     initialRouteName: 'MultiplicationStack',
