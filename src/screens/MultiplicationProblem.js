@@ -1,9 +1,8 @@
 import * as React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {MultiplicationEquation} from '../components/MultiplicationEquation/MultiplicationEquation';
-import {Icon} from '../components/Icon';
 import {reducer} from './MultiplicationProblem.state';
 import {actions} from './MultiplicationProblem.temp-actions';
+import {ProblemScreen} from '../components/ProblemScreen';
 
 export default class MultiplicationProblem extends React.Component {
   static navigationOptions = {
@@ -50,62 +49,14 @@ export default class MultiplicationProblem extends React.Component {
     const {actionIndex, running, equationState} = this.state;
 
     return (
-      <View style={styles.screenOuter}>
+      <ProblemScreen
+        onPressPrev={actionIndex >= 1 ? this.prevAction : null}
+        onPressRefresh={this.runActions}
+        onPressNext={actionIndex <= actions.length - 1 ? this.nextAction : null}
+        disableNavIcons={running}
+      >
         <MultiplicationEquation {...equationState} />
-        {!running && (
-          <>
-            {actionIndex >= 1 && (
-              <TouchIcon
-                name="arrow-back"
-                onPress={this.prevAction}
-                style={styles.bottomLeft}
-              />
-            )}
-            <TouchIcon
-              name="refresh"
-              onPress={this.runActions}
-              style={styles.bottomCenter}
-            />
-            {actionIndex <= actions.length - 1 && (
-              <TouchIcon
-                name="arrow-forward"
-                onPress={this.nextAction}
-                style={styles.bottomRight}
-              />
-            )}
-          </>
-        )}
-      </View>
+      </ProblemScreen>
     );
   }
 }
-
-function TouchIcon({name, style, ...otherProps}) {
-  return (
-    <TouchableOpacity {...otherProps} style={[style, {padding: 10}]}>
-      <Icon name={name} size={28} color="gray" />
-    </TouchableOpacity>
-  );
-}
-
-const styles = StyleSheet.create({
-  screenOuter: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  bottomLeft: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-  },
-  bottomCenter: {
-    position: 'absolute',
-    bottom: 20,
-  },
-  bottomRight: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-  },
-});
