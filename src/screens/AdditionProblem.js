@@ -60,9 +60,13 @@ export class AdditionProblem extends Component {
       >
         <VerticalNumbers operator="addition">
           {addends.map((value, i) => {
-            let focusedIndex = String(value).length - 1 - addendsFocusXedni;
-            if (focusedIndex < 0 || addendsFocusXedni === null) {
-              focusedIndex = null;
+            const numDigits = String(value).length;
+            let focusedIndex;
+            if (
+              Number.isInteger(addendsFocusXedni) &&
+              addendsFocusXedni < numDigits
+            ) {
+              focusedIndex = numDigits - 1 - addendsFocusXedni;
             }
             return (
               <NumberRow
@@ -80,7 +84,9 @@ export class AdditionProblem extends Component {
               value={value}
               faded={i !== addendsFocusXedni}
               focusedIndexes={
-                Number(value) === 0 && i === addendsFocusXedni ? [-1] : []
+                i === addendsFocusXedni && Number(value) === 0
+                  ? [-1]
+                  : undefined
               }
             />
           ))}
