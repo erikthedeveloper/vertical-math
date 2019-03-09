@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {View} from 'react-native';
-import {NumberRow} from './NumberRow';
+import {NumberRow} from '../NumberRow';
 import {VerticalNumbers} from '../VerticalNumbers';
 import {productForIndexes} from '../../utils/math-utils';
 
