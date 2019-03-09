@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {VerticalNumbers} from '../components/VerticalNumbers';
-import {NumberRow} from '../components/MultiplicationEquation/NumberRow';
 import {ProblemScreen} from '../components/ProblemScreen';
+import {AdditionEquation} from '../components/AdditionEquation/AdditionEquation';
 
 const initialState = {
   addends: [17, 294, 1123, 1000],
@@ -57,22 +56,6 @@ export class AdditionProblem extends Component {
   render() {
     const {actionIndex, equationState} = this.state;
 
-    const {addends, addendsFocusXedni, sumInput, carryRow} = equationState;
-    const sumActual = sumArray(addends);
-    const sumIsCorrect = Number(sumInput) === sumActual;
-    const displayAddends = carryRow ? [carryRow, ...addends] : addends;
-    const displayAddendsFocuses = displayAddends.map(num =>
-      xedniToIndex(num, addendsFocusXedni)
-    );
-    const focusedAddendsColumnSum = sumArray(
-      displayAddends
-        .map(String)
-        .map((numStr, i) => numStr[displayAddendsFocuses[i]])
-        .map(Number)
-    );
-
-    const sumFocusedIndex = xedniToIndex(sumInput, addendsFocusXedni);
-
     return (
       <ProblemScreen
         onPressPrev={actionIndex >= 1 ? this.prevAction : null}
@@ -80,47 +63,8 @@ export class AdditionProblem extends Component {
           actionIndex < stateSteps.length - 1 ? this.nextAction : null
         }
       >
-        <VerticalNumbers operator="addition">
-          {displayAddends.map((num, i) => {
-            return (
-              <NumberRow
-                key={i}
-                value={num}
-                focusedIndexes={[displayAddendsFocuses[i]]}
-                isCarry={carryRow && i === 0}
-              />
-            );
-          })}
-        </VerticalNumbers>
-        <NumberRow
-          value={sumInput}
-          success={sumIsCorrect}
-          focusedIndexes={
-            Number.isInteger(sumFocusedIndex)
-              ? sumFocusedIndex === 1
-                ? [0, 1]
-                : [0]
-              : Number.isInteger(addendsFocusXedni)
-              ? String(focusedAddendsColumnSum).length === 2
-                ? [-2, -1]
-                : [-1]
-              : [null]
-          }
-        />
+        <AdditionEquation {...equationState} />
       </ProblemScreen>
     );
   }
-}
-
-function sumArray(nums) {
-  return nums.reduce((sum, num) => sum + num);
-}
-
-function xedniToIndex(num, xedni) {
-  const numDigits = String(num).length;
-  let index;
-  if (Number.isInteger(xedni) && xedni < numDigits) {
-    index = numDigits - 1 - xedni;
-  }
-  return index;
 }
