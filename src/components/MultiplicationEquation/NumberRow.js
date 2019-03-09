@@ -4,7 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 const FONT_SIZE = 50;
 const textColor = 'gray';
 
-function NumberRowNumber({value, isOutlined, success}) {
+function NumberRowNumber({value, isOutlined, success, isCarry}) {
   return (
     <View
       style={[
@@ -17,6 +17,8 @@ function NumberRowNumber({value, isOutlined, success}) {
           styles.character,
           isOutlined && styles.characterFocused,
           success ? {color: 'green'} : null,
+          isCarry && styles.carryNumber,
+          isCarry && Number(value) === 0 && styles.faded,
         ]}
       >
         {value}
@@ -25,18 +27,30 @@ function NumberRowNumber({value, isOutlined, success}) {
   );
 }
 
-export function NumberRow({value, focusedIndexes, operator, success, faded}) {
+export function NumberRow({
+  value,
+  focusedIndexes,
+  operator,
+  success,
+  faded,
+  isCarry,
+}) {
   const valueStr = String(value);
 
   return (
     <View style={[styles.outer, faded && styles.faded]}>
-      {focusedIndexes.includes(-1) && <NumberRowNumber value=" " isOutlined />}
+      {focusedIndexes
+        .filter(i => i < 0)
+        .map(i => (
+          <NumberRowNumber key={i} value=" " isCarry={isCarry} isOutlined />
+        ))}
       {valueStr.split('').map((character, i) => (
         <NumberRowNumber
           key={valueStr.length - 1 - i}
           isOutlined={focusedIndexes.includes(i)}
           success={success}
           value={character}
+          isCarry={isCarry}
         />
       ))}
     </View>
@@ -70,6 +84,9 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZE,
     color: textColor,
     marginHorizontal: 5,
+  },
+  carryNumber: {
+    fontSize: FONT_SIZE / 2,
   },
   characterFocused: {},
 });
