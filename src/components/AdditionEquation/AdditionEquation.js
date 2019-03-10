@@ -7,43 +7,36 @@ import {numberToPlaceValue} from '../../utils/math-utils';
 export class AdditionEquation extends Component {
   render() {
     const {addends, focusedPlaceValue, sumInput, carryRow} = this.props;
-    const sumActual = sumArray(addends);
-    const sumIsCorrect = Number(sumInput) === sumActual;
     const displayAddends = carryRow ? [carryRow, ...addends] : addends;
-    const focusedAddendsSum = sumArrayAtPlaceValue(
-      displayAddends,
-      focusedPlaceValue
-    );
-    const sumFocusedIndex = placeValueToIndex(sumInput, focusedPlaceValue);
+
+    let sumFocusedIndexes = [];
+    if (Number.isInteger(focusedPlaceValue)) {
+      const focusedIsEmpty = numberToPlaceValue(sumInput) < focusedPlaceValue;
+      const focusedAddendsSum = sumArrayAtPlaceValue(
+        displayAddends,
+        focusedPlaceValue
+      );
+      sumFocusedIndexes = String(focusedAddendsSum)
+        .split('')
+        .map((_, i) => (focusedIsEmpty ? -1 - i : i));
+    }
 
     return (
       <View>
         <VerticalNumbers operator="addition">
-          {displayAddends.map((num, i) => {
-            return (
-              <NumberRow
-                key={i}
-                value={num}
-                focusedIndexes={[placeValueToIndex(num, focusedPlaceValue)]}
-                isCarry={carryRow && i === 0}
-              />
-            );
-          })}
+          {displayAddends.map((num, i) => (
+            <NumberRow
+              key={i}
+              value={num}
+              focusedIndexes={[placeValueToIndex(num, focusedPlaceValue)]}
+              isCarry={carryRow && i === 0}
+            />
+          ))}
         </VerticalNumbers>
         <NumberRow
           value={sumInput}
-          success={sumIsCorrect}
-          focusedIndexes={
-            Number.isInteger(sumFocusedIndex)
-              ? sumFocusedIndex === 1
-                ? [0, 1]
-                : [0]
-              : Number.isInteger(focusedPlaceValue)
-              ? String(focusedAddendsSum).length === 2
-                ? [-2, -1]
-                : [-1]
-              : [null]
-          }
+          success={Number(sumInput) === sumArray(addends)}
+          focusedIndexes={sumFocusedIndexes}
         />
       </View>
     );
