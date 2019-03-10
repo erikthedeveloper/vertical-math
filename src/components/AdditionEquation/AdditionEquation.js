@@ -5,20 +5,15 @@ import {NumberRow} from '../NumberRow';
 
 export class AdditionEquation extends Component {
   render() {
-    const {addends, addendsFocusXedni, sumInput, carryRow} = this.props;
+    const {addends, focusedPlaceValue, sumInput, carryRow} = this.props;
     const sumActual = sumArray(addends);
     const sumIsCorrect = Number(sumInput) === sumActual;
     const displayAddends = carryRow ? [carryRow, ...addends] : addends;
-    const displayAddendsFocuses = displayAddends.map(num =>
-      xedniToIndex(num, addendsFocusXedni)
+    const focusedAddendsSum = addendsSumAtPlaceValue(
+      displayAddends,
+      focusedPlaceValue
     );
-    const focusedAddendsColumnSum = sumArray(
-      displayAddends
-        .map(String)
-        .map((numStr, i) => numStr[displayAddendsFocuses[i]])
-        .map(Number)
-    );
-    const sumFocusedIndex = xedniToIndex(sumInput, addendsFocusXedni);
+    const sumFocusedIndex = placeValueToIndex(sumInput, focusedPlaceValue);
 
     return (
       <View>
@@ -28,7 +23,7 @@ export class AdditionEquation extends Component {
               <NumberRow
                 key={i}
                 value={num}
-                focusedIndexes={[displayAddendsFocuses[i]]}
+                focusedIndexes={[placeValueToIndex(num, focusedPlaceValue)]}
                 isCarry={carryRow && i === 0}
               />
             );
@@ -42,8 +37,8 @@ export class AdditionEquation extends Component {
               ? sumFocusedIndex === 1
                 ? [0, 1]
                 : [0]
-              : Number.isInteger(addendsFocusXedni)
-              ? String(focusedAddendsColumnSum).length === 2
+              : Number.isInteger(focusedPlaceValue)
+              ? String(focusedAddendsSum).length === 2
                 ? [-2, -1]
                 : [-1]
               : [null]
@@ -58,11 +53,18 @@ function sumArray(nums) {
   return nums.reduce((sum, num) => sum + num);
 }
 
-function xedniToIndex(num, xedni) {
+function placeValueToIndex(num, placeValue) {
   const numDigits = String(num).length;
-  let index;
-  if (Number.isInteger(xedni) && xedni < numDigits) {
-    index = numDigits - 1 - xedni;
-  }
-  return index;
+  return Number.isInteger(placeValue) && placeValue < numDigits
+    ? numDigits - 1 - placeValue
+    : null;
+}
+
+function addendsSumAtPlaceValue(addends, placeValue) {
+  return sumArray(
+    addends
+      .map(String)
+      .map(numStr => numStr[placeValueToIndex(numStr, placeValue)])
+      .map(Number)
+  );
 }

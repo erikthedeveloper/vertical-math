@@ -4,31 +4,32 @@ import {AdditionEquation} from '../components/AdditionEquation/AdditionEquation'
 
 const initialState = {
   addends: [17, 294, 1123, 1000],
-  addendsFocusXedni: null,
+  focusedPlaceValue: null,
   sumInput: '',
   sumRows: [],
 };
 
+// TODO: Refactor to actions and reducer handlers and not hardcoded values...
 const stateSteps = [
   state => state,
   // FOCUS_NEXT
-  state => ({...state, addendsFocusXedni: 0}),
+  state => ({...state, focusedPlaceValue: 0}),
   // INPUT_SUM
   state => ({...state, sumInput: 14}),
   // FOCUS_NEXT -> split carry off when appropriate
-  state => ({...state, addendsFocusXedni: 1, carryRow: 10, sumInput: 4}),
+  state => ({...state, focusedPlaceValue: 1, carryRow: 10, sumInput: 4}),
   // INPUT_SUM
   state => ({...state, sumInput: 134}),
   // FOCUS_NEXT -> split carry off when appropriate
-  state => ({...state, addendsFocusXedni: 2, carryRow: 110, sumInput: 34}),
+  state => ({...state, focusedPlaceValue: 2, carryRow: 110, sumInput: 34}),
   // INPUT_SUM
   state => ({...state, sumInput: 434}),
   // FOCUS_NEXT
-  state => ({...state, addendsFocusXedni: 3}),
+  state => ({...state, focusedPlaceValue: 3}),
   // INPUT_SUM
   state => ({...state, sumInput: 2434}),
   // COMPLETE
-  state => ({...state, addendsFocusXedni: null}),
+  state => ({...state, focusedPlaceValue: null}),
 ];
 
 export class AdditionProblem extends Component {
