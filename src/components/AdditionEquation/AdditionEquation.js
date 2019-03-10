@@ -82,5 +82,6 @@ function sumArrayAtPlaceValue(addends, placeValue) {
  *   159, 2 -> 0
  */
 function numberAtPlaceValue(number, placeValue) {
-  return Number(String(number)[placeValueToIndex(number, placeValue)]);
+  const result = Number(String(number)[placeValueToIndex(number, placeValue)]);
+  return Number.isInteger(result) ? result : 0;
 }
