@@ -1,4 +1,19 @@
-import {productForIndexes} from './math-utils';
+import {numberToPlaceValue, productForIndexes} from './math-utils';
+
+describe('numberToPlaceValue', () => {
+  [
+    [0, 0],
+    [5, 0],
+    [55, 1],
+    ['55', 1],
+    [555, 2],
+    [5123456789123456, 15],
+  ].forEach(([number, expected]) => {
+    test(`numberToPlaceValue(${number}) -> ${expected}`, () => {
+      expect(numberToPlaceValue(number)).toEqual(expected);
+    });
+  });
+});
 
 describe('productForIndexes', () => {
   [

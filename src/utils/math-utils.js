@@ -1,3 +1,7 @@
+export function numberToPlaceValue(number) {
+  return String(number).length - 1;
+}
+
 export function productForIndexes(factors, indexes) {
   const [aValue, bValue] = factors.map((factor, i) =>
     valueAtIndex(factor, indexes[i])
