@@ -6,10 +6,6 @@ import {ProblemScreen} from '../components/ProblemScreen';
 import {animateNextLayout} from '../utils/animation';
 
 export default class MultiplicationProblem extends React.Component {
-  static navigationOptions = {
-    header: null,
-  };
-
   static getDerivedStateFromProps(props, state) {
     return {
       equationState: state.actions
