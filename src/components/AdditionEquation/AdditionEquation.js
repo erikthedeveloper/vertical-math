@@ -31,7 +31,7 @@ export class AdditionEquation extends Component {
         <VerticalNumbers operator="addition">
           {displayAddends.map((num, i) => (
             <NumberRow
-              key={i}
+              key={carryRow ? i : i + 1}
               value={num}
               focusedIndexes={[placeValueToIndex(num, focusedPlaceValue)]}
               isCarry={carryRow && i === 0}
