@@ -4,6 +4,7 @@ import {reducer} from '../state/multiplication';
 import {actions} from './MultiplicationProblem.temp-actions';
 import {ProblemScreen} from '../components/ProblemScreen';
 import {animateNextLayout} from '../utils/animation';
+import {Alert} from 'react-native';
 
 export default class MultiplicationProblem extends React.Component {
   static getDerivedStateFromProps(props, state) {
@@ -23,6 +24,16 @@ export default class MultiplicationProblem extends React.Component {
     equationState: undefined,
   };
 
+  componentDidUpdate(_, prevState) {
+    const {actionIndex, actions} = this.state;
+    if (
+      actionIndex !== prevState.actionIndex &&
+      actionIndex === actions.length - 1
+    ) {
+      Alert.alert('Correct!', '💯 You solved the equation! 💯');
+    }
+  }
+
   prevAction = () => {
     animateNextLayout();
     this.setState(({actionIndex}) => ({actionIndex: actionIndex - 1}));
@@ -34,7 +45,7 @@ export default class MultiplicationProblem extends React.Component {
   };
 
   render() {
-    const {actionIndex, equationState} = this.state;
+    const {actions, actionIndex, equationState} = this.state;
 
     return (
       <ProblemScreen
