@@ -31,7 +31,9 @@ export function NumberRow({
   value,
   focusedIndexes,
   operator,
+  // TODO: Refactor to successIndexes
   success,
+  // TODO: Refactor to fadedIndexes
   faded,
   isCarry,
 }) {
