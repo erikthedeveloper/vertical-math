@@ -3,6 +3,7 @@ import {MultiplicationEquation} from '../components/MultiplicationEquation/Multi
 import {reducer} from './MultiplicationProblem.state';
 import {actions} from './MultiplicationProblem.temp-actions';
 import {ProblemScreen} from '../components/ProblemScreen';
+import {animateNextLayout} from '../utils/animation';
 
 export default class MultiplicationProblem extends React.Component {
   static navigationOptions = {
@@ -38,10 +39,12 @@ export default class MultiplicationProblem extends React.Component {
   };
 
   prevAction = () => {
+    animateNextLayout();
     this.setState(({actionIndex}) => ({actionIndex: actionIndex - 1}));
   };
 
   nextAction = () => {
+    animateNextLayout();
     this.setState(({actionIndex}) => ({actionIndex: actionIndex + 1}));
   };
 
