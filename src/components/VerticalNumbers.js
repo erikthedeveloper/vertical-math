@@ -1,18 +1,25 @@
 import * as React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {Icon} from './Icon';
 
 const styles = StyleSheet.create({
   outer: {},
-  bottomLeft: {
-    position: 'absolute',
-    bottom: 0,
-    left: 20,
-  },
   hr: {
     height: 2,
     width: 225,
     backgroundColor: '#000',
+  },
+  operator: {
+    position: 'absolute',
+    bottom: Platform.select({
+      ios: 0,
+      android: 10,
+    }),
+    fontSize: Platform.select({
+      ios: 60,
+      android: 50,
+    }),
+    left: 20,
   },
 });
 
@@ -23,7 +30,7 @@ export function VerticalNumbers({children, operator}) {
       <View>
         {children}
         {displaySolutionBar && (
-          <Operator operator={operator} style={styles.bottomLeft} />
+          <Operator operator={operator} style={styles.operator} />
         )}
       </View>
       {displaySolutionBar && <Hr />}
@@ -35,13 +42,11 @@ function Hr() {
   return <View style={styles.hr} />;
 }
 
-function Operator({operator, style}) {
+function Operator({operator}) {
   const icon = {
     multiplication: 'close',
     addition: 'add',
     subtraction: 'remove',
   }[operator];
-  return (
-    <Icon name={icon} size={60} color="gray" style={[styles.operator, style]} />
-  );
+  return <Icon name={icon} color="gray" style={[styles.operator]} />;
 }
