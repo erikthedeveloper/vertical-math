@@ -51,6 +51,7 @@ export function numberAtPlaceValue(number, placeValue) {
 }
 
 export const sortAsc = (a, b) => a - b;
+export const sortDesc = (a, b) => b - a;
 
 function generateAddend(min, max) {
   return Math.max(
