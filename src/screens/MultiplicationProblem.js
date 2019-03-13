@@ -24,18 +24,7 @@ export default class MultiplicationProblem extends React.Component {
   state = {
     actions,
     actionIndex: 0,
-    running: false,
     equationState: undefined,
-  };
-
-  runActions = async () => {
-    this.setState({actionIndex: 0, running: true});
-    for (const action of actions) {
-      const delay = Math.random() * 250 + 750;
-      await new Promise(resolve => setTimeout(resolve, delay));
-      this.nextAction();
-    }
-    this.setState({running: false});
   };
 
   prevAction = () => {
@@ -49,14 +38,12 @@ export default class MultiplicationProblem extends React.Component {
   };
 
   render() {
-    const {actionIndex, running, equationState} = this.state;
+    const {actionIndex, equationState} = this.state;
 
     return (
       <ProblemScreen
         onPressPrev={actionIndex >= 1 ? this.prevAction : null}
-        onPressRefresh={this.runActions}
         onPressNext={actionIndex <= actions.length - 1 ? this.nextAction : null}
-        disableNavIcons={running}
       >
         <MultiplicationEquation {...equationState} />
       </ProblemScreen>
