@@ -14,7 +14,7 @@ const MultiplicationStack = createStackNavigator(
 );
 
 MultiplicationStack.navigationOptions = {
-  tabBarLabel: 'Multiply',
+  tabBarLabel: 'Multiplication',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
@@ -31,7 +31,7 @@ const AdditionStack = createStackNavigator(
 );
 
 AdditionStack.navigationOptions = {
-  tabBarLabel: 'Add',
+  tabBarLabel: 'Addition',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
@@ -48,7 +48,7 @@ const SubtractionStack = createStackNavigator(
 );
 
 SubtractionStack.navigationOptions = {
-  tabBarLabel: 'Subtract',
+  tabBarLabel: 'Subtraction',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
@@ -64,6 +64,6 @@ export default createBottomTabNavigator(
     MultiplicationStack,
   },
   {
-    initialRouteName: 'MultiplicationStack',
+    initialRouteName: 'AdditionStack',
   }
 );
