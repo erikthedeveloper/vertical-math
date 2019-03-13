@@ -1,68 +1,84 @@
 import React, {Component} from 'react';
+import {Alert} from 'react-native';
 import {ProblemScreen} from '../components/ProblemScreen';
 import {AdditionEquation} from '../components/AdditionEquation/AdditionEquation';
-
-const initialState = {
-  addends: [17, 294, 1123, 1000],
-  focusedPlaceValue: null,
-  sumInput: '',
-  sumRows: [],
-};
-
-// TODO: Refactor to actions and reducer handlers and not hardcoded values...
-const stateSteps = [
-  state => state,
-  // FOCUS_NEXT
-  state => ({...state, focusedPlaceValue: 0}),
-  // INPUT_SUM
-  state => ({...state, sumInput: 14}),
-  // FOCUS_NEXT -> split carry off when appropriate
-  state => ({...state, focusedPlaceValue: 1, carryRow: 10, sumInput: 4}),
-  // INPUT_SUM
-  state => ({...state, sumInput: 134}),
-  // FOCUS_NEXT -> split carry off when appropriate
-  state => ({...state, focusedPlaceValue: 2, carryRow: 110, sumInput: 34}),
-  // INPUT_SUM
-  state => ({...state, sumInput: 434}),
-  // FOCUS_NEXT
-  state => ({...state, focusedPlaceValue: 3}),
-  // INPUT_SUM
-  state => ({...state, sumInput: 2434}),
-  // COMPLETE
-  state => ({...state, focusedPlaceValue: null}),
-];
+import {generateAddends, sortAsc} from '../utils/math-utils';
+import {animateNextLayout} from '../utils/animation';
+import {randDelay} from '../utils/promise';
+import {reduceActions} from '../state/state-utils';
+import {autoSolveActions, NEW_PROBLEM, reducer} from '../state/addition';
 
 export class AdditionProblem extends Component {
-  state = {
-    actionIndex: 0,
-    equationState: undefined,
-  };
+  constructor() {
+    super(...arguments);
 
-  static getDerivedStateFromProps(props, state) {
-    return {
-      equationState: stateSteps
-        .slice(0, state.actionIndex + 1)
-        .reduce((state, mergeState) => mergeState(state), initialState),
-    };
+    const addends = [129, 12, 318, 2732].sort(sortAsc);
+    const actions = autoSolveActions(addends);
+    const actionIndex = 0;
+    const equationState = reduceActions(reducer, actions, actionIndex);
+
+    this.state = {actions, actionIndex, equationState};
+  }
+
+  componentDidUpdate(_, prevState) {
+    const {actionIndex, actions} = this.state;
+    if (
+      actionIndex !== prevState.actionIndex &&
+      actionIndex === actions.length - 1
+    ) {
+      Alert.alert('Correct!', '💯 You solved the equation! 💯');
+    }
   }
 
   prevAction = () => {
-    this.setState(({actionIndex}) => ({actionIndex: actionIndex - 1}));
+    animateNextLayout();
+    this.setState(state => {
+      const actionIndex = state.actionIndex - 1;
+      return {
+        actionIndex,
+        equationState: reduceActions(reducer, state.actions, actionIndex),
+      };
+    });
   };
 
   nextAction = () => {
-    this.setState(({actionIndex}) => ({actionIndex: actionIndex + 1}));
+    animateNextLayout();
+    this.setState(state => {
+      const actionIndex = state.actionIndex + 1;
+      return {
+        actionIndex,
+        equationState: reducer(state.equationState, state.actions[actionIndex]),
+      };
+    });
+  };
+
+  shuffleAddends = async () => {
+    this.setState({actionIndex: 0});
+
+    for (let i = 0; i < 5; i++) {
+      await randDelay(100, 250);
+      animateNextLayout();
+      this.setState(state => ({
+        equationState: reducer(state.equationState, {
+          type: NEW_PROBLEM,
+          addends: generateAddends(2, 5),
+        }),
+      }));
+    }
+
+    this.setState(state => ({
+      actions: autoSolveActions(state.equationState.addends),
+    }));
   };
 
   render() {
-    const {actionIndex, equationState} = this.state;
+    const {actions, actionIndex, equationState} = this.state;
 
     return (
       <ProblemScreen
-        onPressPrev={actionIndex >= 1 ? this.prevAction : null}
-        onPressNext={
-          actionIndex < stateSteps.length - 1 ? this.nextAction : null
-        }
+        onPressPrev={actionIndex > 0 ? this.prevAction : null}
+        onPressRefresh={this.shuffleAddends}
+        onPressNext={actionIndex < actions.length - 1 ? this.nextAction : null}
       >
         <AdditionEquation {...equationState} />
       </ProblemScreen>

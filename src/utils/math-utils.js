@@ -45,7 +45,23 @@ export function sumArrayAtPlaceValue(addends, placeValue) {
  *   159, 1 -> 5
  *   159, 2 -> 0
  */
-function numberAtPlaceValue(number, placeValue) {
+export function numberAtPlaceValue(number, placeValue) {
   const result = Number(String(number)[placeValueToIndex(number, placeValue)]);
   return Number.isInteger(result) ? result : 0;
+}
+
+export const sortAsc = (a, b) => a - b;
+
+function generateAddend(min, max) {
+  return Math.max(
+    Math.round(Math.random() * min),
+    Math.round(Math.random() * max)
+  );
+}
+
+export function generateAddends(min, max) {
+  const numAddends = Math.max(min, Math.round(Math.random() * max));
+  return Array.from({length: numAddends})
+    .map(() => generateAddend(50, 2500))
+    .sort(sortAsc);
 }
