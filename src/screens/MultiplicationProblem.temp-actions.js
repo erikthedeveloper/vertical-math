@@ -3,7 +3,7 @@ import {
   INPUT_NUMBER,
   INPUT_SOLUTION,
   NEW_PRODUCT_ROW,
-} from './MultiplicationProblem.state';
+} from '../state/multiplication';
 
 export const actions = [
   {type: NEW_PRODUCT_ROW, multiplicandFocus: 1, multiplierFocus: 1, zeroes: ''},

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {MultiplicationEquation} from '../components/MultiplicationEquation/MultiplicationEquation';
-import {reducer} from './MultiplicationProblem.state';
+import {reducer} from '../state/multiplication';
 import {actions} from './MultiplicationProblem.temp-actions';
 import {ProblemScreen} from '../components/ProblemScreen';
 import {animateNextLayout} from '../utils/animation';
