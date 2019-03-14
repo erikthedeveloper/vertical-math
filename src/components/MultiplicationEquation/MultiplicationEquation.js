@@ -3,7 +3,6 @@ import {View} from 'react-native';
 import {NumberRow} from '../NumberRow';
 import {VerticalNumbers} from '../VerticalNumbers';
 import {productForIndexes} from '../../utils/math-utils';
-import {AdditionEquation} from '../AdditionEquation/AdditionEquation';
 
 export class MultiplicationEquation extends React.Component {
   render() {
@@ -14,23 +13,9 @@ export class MultiplicationEquation extends React.Component {
       multiplicandFocus,
       multiplierFocus,
       productRowsFocus,
-      additionMode,
     } = this.props;
 
     const productIsCorrect = Number(product) === multiplicand * multiplier;
-
-    if (additionMode) {
-      return (
-        <View>
-          <AdditionEquation
-            addends={productRows}
-            focusedPlaceValue={0}
-            sumInput=""
-            carryRow=""
-          />
-        </View>
-      );
-    }
 
     return (
       <View>
