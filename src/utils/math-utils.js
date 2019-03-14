@@ -15,7 +15,7 @@ function valueAtIndex(number, i) {
 }
 
 export function sumArray(nums) {
-  return nums.reduce((sum, num) => sum + num);
+  return nums.map(Number).reduce((sum, num) => sum + num);
 }
 
 /**
