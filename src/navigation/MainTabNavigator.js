@@ -3,8 +3,8 @@ import {Platform} from 'react-native';
 import {createBottomTabNavigator, createStackNavigator} from 'react-navigation';
 import TabBarIcon from '../components/TabBarIcon';
 import MultiplicationProblem from '../screens/MultiplicationProblem';
-import {SubtractionProblem} from '../screens/SubtractionProblem';
 import {AdditionProblem} from '../screens/AdditionProblem';
+import {FibonacciProblem} from '../screens/FibonacciProblem';
 
 const MultiplicationStack = createStackNavigator(
   {
@@ -42,17 +42,17 @@ AdditionStack.navigationOptions = {
 
 const SubtractionStack = createStackNavigator(
   {
-    Subtraction: SubtractionProblem,
+    Subtraction: FibonacciProblem,
   },
   {defaultNavigationOptions: {header: null}}
 );
 
 SubtractionStack.navigationOptions = {
-  tabBarLabel: 'Subtraction',
+  tabBarLabel: 'Fibonacci',
   tabBarIcon: ({focused}) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-remove' : 'md-remove'}
+      name={Platform.OS === 'ios' ? 'ios-flower' : 'md-flower'}
     />
   ),
 };
