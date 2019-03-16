@@ -6,9 +6,9 @@ import {reduceActions} from '../state/state-utils';
 export class ActionsState extends React.Component {
   constructor() {
     super(...arguments);
-    const {actions} = this.props;
+    const {actions, initialActionIndex = 0} = this.props;
     this.state = {
-      actionIndex: 0,
+      actionIndex: initialActionIndex,
       actionsState: reducer(undefined, actions[0]),
     };
   }
