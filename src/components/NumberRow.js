@@ -1,10 +1,21 @@
+// @flow
 import * as React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 const FONT_SIZE = 50;
 const textColor = 'gray';
 
-function NumberRowNumber({value, isOutlined, success, isCarry}) {
+function NumberRowNumber({
+  value,
+  isOutlined,
+  success,
+  isCarry,
+}: {
+  value: string | number,
+  isOutlined?: boolean,
+  success?: boolean,
+  isCarry?: boolean,
+}) {
   return (
     <View
       style={[
@@ -36,6 +47,13 @@ export function NumberRow({
   // TODO: Refactor to fadedIndexes
   faded,
   isCarry,
+}: {
+  value: string | number,
+  focusedIndexes: number[],
+  operator?: string,
+  success?: boolean,
+  faded?: boolean,
+  isCarry?: boolean,
 }) {
   const valueStr = String(value);
 

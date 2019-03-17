@@ -1,9 +1,28 @@
+// @flow
 import * as React from 'react';
 import {reducer} from '../state/addition';
 import {animateNextLayout} from '../utils/animation';
 import {reduceActions} from '../state/state-utils';
 
-export class ActionsState extends React.Component {
+export class ActionsState extends React.Component<
+  {
+    actions: Object[],
+    reducer: Function,
+    initialActionIndex?: number,
+    // TODO: How to type this so actionsState is State from $Call<Reducer>
+    // Generics for class generics?
+    children: ({
+      actionsState: Object,
+      actionIndex: number,
+      prevAction: Function,
+      nextAction: Function,
+    }) => React.Node,
+  },
+  {
+    actionIndex: number,
+    actionsState: Object,
+  }
+> {
   constructor() {
     super(...arguments);
     const {actions, initialActionIndex = 0} = this.props;

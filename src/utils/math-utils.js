@@ -1,21 +1,27 @@
-export function numberToPlaceValue(number) {
+// @flow
+export function numberToPlaceValue(number: string | number): number {
   return String(number).length - 1;
 }
 
-export function productForIndexes(factors, indexes) {
-  const [aValue, bValue] = factors.map((factor, i) =>
-    valueAtIndex(factor, indexes[i])
+export function productForIndexes(
+  factors: [number, number],
+  indexes: [number, number]
+): number {
+  const [aValue, bValue] = factors.map(
+    (factor: number, i: number): number => valueAtIndex(factor, indexes[i])
   );
   return aValue * bValue;
 }
 
-function valueAtIndex(number, i) {
+function valueAtIndex(number: number, i: number): number {
   const aString = String(number);
   return Number(aString[i]) * Math.pow(10, aString.length - 1 - i);
 }
 
-export function sumArray(nums) {
-  return nums.map(Number).reduce((sum, num) => sum + num);
+export function sumArray(nums: number[]): number {
+  return nums
+    .map(Number)
+    .reduce((sum: number, num: number): number => sum + num);
 }
 
 /**
@@ -26,14 +32,20 @@ export function sumArray(nums) {
  *  1000, 1 -> 2
  *  1000, 5 -> null
  */
-export function placeValueToIndex(num, placeValue) {
+export function placeValueToIndex(
+  num: number,
+  placeValue: ?number
+): null | number {
   const numPlaceValue = numberToPlaceValue(num);
-  return !Number.isInteger(placeValue) || placeValue > numPlaceValue
+  return !isNumber(placeValue) || placeValue > numPlaceValue
     ? null
     : numPlaceValue - placeValue;
 }
 
-export function sumArrayAtPlaceValue(addends, placeValue) {
+export function sumArrayAtPlaceValue(
+  addends: number[],
+  placeValue: number
+): number {
   return sumArray(
     addends.map(number => numberAtPlaceValue(number, placeValue))
   );
@@ -45,24 +57,29 @@ export function sumArrayAtPlaceValue(addends, placeValue) {
  *   159, 1 -> 5
  *   159, 2 -> 0
  */
-export function numberAtPlaceValue(number, placeValue) {
-  const result = Number(String(number)[placeValueToIndex(number, placeValue)]);
-  return Number.isInteger(result) ? result : 0;
+export function numberAtPlaceValue(number: number, placeValue: number): number {
+  const index = placeValueToIndex(number, placeValue);
+  return isNumber(index) ? Number(String(number)[index]) : 0;
 }
 
-export const sortAsc = (a, b) => a - b;
-export const sortDesc = (a, b) => b - a;
+type SortFunc = (number, number) => number;
+export const sortAsc: SortFunc = (a, b) => a - b;
+export const sortDesc: SortFunc = (a, b) => b - a;
 
-function generateAddend(min, max) {
+function generateAddend(min: number, max: number): number {
   return Math.max(
     Math.round(Math.random() * min),
     Math.round(Math.random() * max)
   );
 }
 
-export function generateAddends(min, max) {
+export function generateAddends(min: number, max: number): number[] {
   const numAddends = Math.max(min, Math.round(Math.random() * max));
   return Array.from({length: numAddends})
-    .map(() => generateAddend(50, 2500))
+    .map((): number => generateAddend(50, 2500))
     .sort(sortAsc);
+}
+
+export function isNumber(value: mixed): boolean %checks {
+  return typeof value === 'number';
 }
