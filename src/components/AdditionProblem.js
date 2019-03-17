@@ -1,3 +1,4 @@
+// @flow
 import * as React from 'react';
 import {Alert} from 'react-native';
 import {autoSolveActions, reducer} from '../state/addition';
@@ -5,7 +6,15 @@ import {ActionsState} from './ActionsState';
 import {ProblemScreen} from './ProblemScreen';
 import {AdditionEquation} from './AdditionEquation/AdditionEquation';
 
-export function AdditionProblem({addends, onPressPrev, onPressRefresh}) {
+export function AdditionProblem({
+  addends,
+  onPressPrev,
+  onPressRefresh,
+}: {
+  addends: number[],
+  onPressPrev: Function,
+  onPressRefresh: Function,
+}) {
   const actions = autoSolveActions(addends);
   return (
     <ActionsState key={String(addends)} reducer={reducer} actions={actions}>
